@@ -4,7 +4,7 @@ import Login from './components/Login';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 import SidebarPage from './components/SidebarPage';
 import Register from './components/Register';
-import Test from './components/Test';
+import User from './components/User';
 
 function App() {
   const LoginView = () => (
@@ -14,8 +14,8 @@ function App() {
     <Register/>
   );
 
-  const TestView = () => (
-    <Test/>
+  const UserView = () => (
+    <User/>
   );
   return (
           <Router>
@@ -26,7 +26,7 @@ function App() {
                       <Route exact path="/" component={localStorage.getItem('isLoggedIn') ? SidebarPage: LoginView}/>
                       <Route exact path="/home" component={localStorage.getItem('isLoggedIn') ? SidebarPage : LoginView}/>
                       <Route exact path="/register" component={localStorage.getItem('isLoggedIn') ? SidebarPage: RegisterView}/>
-                      <Route exact path="/test" component= {TestView} />
+                      <Route exact path="/User" component= {UserView} />
                   </div>
               </div>
           </Router>

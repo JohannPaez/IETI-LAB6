@@ -86,18 +86,32 @@ export default function Register(props) {
     if (formulario.passwd !== formulario.passwdConfirm || (formulario.passwd === "" || formulario.passwdConfirm === "")) {
       alert("Las contraseñas no coinciden o son vacias, intente nuevamente!");
       return;
-    }
-    if (localStorage.getItem('users') == null) {
-      localStorage.setItem('users', '[{"username": "Johann Paez", "email": "johann.paez@mail.escuelaing.edu.co", "passwd": "Prueba123@"}, {"username": "Sebastian Campos", "email": "najoh2907@hotmail.com", "passwd": "asd"}]');
-    }
-    var userAdd = {username: formulario.fullName, email: formulario.email, passwd: formulario.passwd};
-    var users = localStorage.getItem("users");
-    var jsonUsers = JSON.parse(users);
-    jsonUsers.push(userAdd);
-    localStorage.setItem("users", JSON.stringify(jsonUsers));
-    localStorage.setItem("username", formulario.fullName);
-    localStorage.setItem("email", formulario.email);                
-    localStorage.setItem('isLoggedIn', true);
+    }    
+    var userAdd = {name: formulario.fullName, email: formulario.email, password: formulario.passwd};
+    console.log("USERRRRRRRRRRRRRR");
+    console.log(userAdd);
+    console.log("JAJAJAJJAJAJAJA")
+
+    fetch("https://serene-earth-78588.herokuapp.com/users", 
+          {method: "POST",
+             body: JSON.stringify(userAdd),
+             mode: "cors",
+             headers: {
+                "Content-Type": "application/json"
+              }
+            })
+            .then(response => response.text())
+            .then(data => {                
+              localStorage.setItem("username", formulario.fullName);
+              localStorage.setItem("email", formulario.email);                
+              localStorage.setItem('isLoggedIn', true);
+              handleClickShowPassword();              
+            })
+            .catch(e => {
+                console.log("Error");
+                console.log(e);
+                alert("Ha ocurrido un error!");
+            });    
   }
   
   const handleChange = (prop) => (event) => {

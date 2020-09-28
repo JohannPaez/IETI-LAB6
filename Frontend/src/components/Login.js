@@ -19,9 +19,20 @@ export class Login extends React.Component{
         this.handleEmailChange = this.handleEmailChange.bind(this);
         this.handlePassChange = this.handlePassChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        if (localStorage.getItem('users') == null) {
-            localStorage.setItem('users', '[{"username": "Johann Paez", "email": "johann.paez@mail.escuelaing.edu.co", "passwd": "Prueba123@"}, {"username": "Sebastian Campos", "email": "najoh2907@hotmail.com", "passwd": "asd"}]');
-        }
+
+    }
+
+    componentDidMount() {
+        fetch('https://serene-earth-78588.herokuapp.com/users')
+            .then(response => response.json())
+            .then(data => {                
+                localStorage.setItem('users', JSON.stringify(data));
+            })
+            .catch(e => {
+                console.log("Error");
+                console.log(e);
+                alert("Ha ocurrido un error!");
+            });
     }
 
     render(){
@@ -40,7 +51,7 @@ export class Login extends React.Component{
                         <Typography variant="h2">Task Planner</Typography>
                         <div className="form" onSubmit={this.handleSubmit}>
                             <FormControl margin="normal" required fullWidth>
-                                <InputLabel htmlFor="email">Username</InputLabel>
+                                <InputLabel htmlFor="email">Email</InputLabel>
                                 <Input id="email" name="email" autoComplete="email" autoFocus onChange={this.handleEmailChange} />
                             </FormControl>
                             <FormControl margin="normal" required fullWidth>
@@ -90,9 +101,9 @@ export class Login extends React.Component{
         var flag = false;
         
         for (var i = 0; i < users.length; i++) {            
-            if (this.state.email === users[i].email && this.state.passwd === users[i].passwd) {   
+            if (this.state.email === users[i].email && this.state.passwd === users[i].password) {   
                 flag = true;
-                localStorage.setItem("username", users[i].username);
+                localStorage.setItem("username", users[i].name);
                 localStorage.setItem("email", users[i].email);                
                 localStorage.setItem('isLoggedIn', true);
                 this.props.history.push("/home");
