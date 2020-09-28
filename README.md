@@ -22,7 +22,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://storageietilab4.z13.web.core.windows.net/)
 
 ## Enunciado
-El enunciado del laboratorio está disponible [aquí](https://github.com/ieti-eci/1.4-react-js-task-planner-part2).
+El enunciado del laboratorio está disponible [aquí](https://github.com/ieti-eci/2.1-task-planner-api).
 
 ## Autor
 Johann Sebastian Páez Campos - Laboratorio 04 IETI 10/09/2020
