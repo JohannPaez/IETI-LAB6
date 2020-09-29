@@ -20,7 +20,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 [Firebase Link 2](https://taskplanner-ieti-lab06-43ed1.firebaseapp.com/)
 
-[![Deploy to Heroku](https://serene-earth-78588.herokuapp.com/)
+[![Deploy to Heroku](https://www.herokucdn.com/deploy/button.svg)](https://serene-earth-78588.herokuapp.com/)
 
 ## Enunciado
 El enunciado del laboratorio está disponible [aquí](https://github.com/ieti-eci/2.1-task-planner-api).
