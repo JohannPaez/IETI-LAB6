@@ -9,6 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import './Login.css';
 import {Link, withRouter} from 'react-router-dom';
 import SidebarPage from './SidebarPage';
+import '../degradados.css';
 
 
 export class Login extends React.Component{
@@ -43,44 +44,46 @@ export class Login extends React.Component{
         }
 
         return (
-            <React.Fragment>
-                <CssBaseline />
-                <main className="layout">
-                    <Paper className="paper">
-                        
-                        <Typography variant="h2">Task Planner</Typography>
-                        <div className="form" onSubmit={this.handleSubmit}>
-                            <FormControl margin="normal" required fullWidth>
-                                <InputLabel htmlFor="email">Email</InputLabel>
-                                <Input id="email" name="email" autoComplete="email" autoFocus onChange={this.handleEmailChange} />
-                            </FormControl>
-                            <FormControl margin="normal" required fullWidth>
-                                <InputLabel htmlFor="password">Password</InputLabel>
-                                <Input
-                                    name="password"
-                                    type="password"
-                                    id="password"
-                                    autoComplete="current-password"
-                                    onChange={this.handlePassChange}
-                                />
-                            </FormControl>
-                            <Button
-                                type="submit"
-                                fullWidth
-                                variant="contained"
-                                color="primary"
-                                className="submit"
-                                onClick = {this.handleSubmit}
-                            >
-                                LOGIN
-                            </Button>
-                            <br></br>
-                            <br></br>
-                            <Link to ="/register"> Sign Up</Link>
-                        </div>
-                    </Paper>
-                </main>
-            </React.Fragment>
+            <div className = "login" style = {{width:'100%', height:'100hv', backgroundImage: 'linear-gradient(135deg, #08185B, #949CBC)', display:'flex'}}>
+                    <React.Fragment>
+                        <CssBaseline />
+                        <main className="layout">
+                            <Paper className="paper">
+                                
+                                <Typography variant="h2">Task Planner</Typography>
+                                <div className="form" onSubmit={this.handleSubmit}>
+                                    <FormControl margin="normal" required fullWidth>
+                                        <InputLabel htmlFor="email">Email</InputLabel>
+                                        <Input id="email" name="email" autoComplete="email" autoFocus onChange={this.handleEmailChange} />
+                                    </FormControl>
+                                    <FormControl margin="normal" required fullWidth>
+                                        <InputLabel htmlFor="password">Password</InputLabel>
+                                        <Input
+                                            name="password"
+                                            type="password"
+                                            id="password"
+                                            autoComplete="current-password"
+                                            onChange={this.handlePassChange}
+                                        />
+                                    </FormControl>
+                                    <Button
+                                        type="submit"
+                                        fullWidth
+                                        variant="contained"
+                                        color="primary"
+                                        className="submit"
+                                        onClick = {this.handleSubmit}
+                                    >
+                                        LOGIN
+                                    </Button>
+                                    <br></br>
+                                    <br></br>
+                                    <Link to ="/register"> Sign Up</Link>
+                                </div>
+                            </Paper>
+                        </main>
+                    </React.Fragment>
+            </div>
         );
     }
 

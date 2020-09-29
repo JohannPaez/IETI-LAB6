@@ -16,6 +16,7 @@ import Avatar from '@material-ui/core/Avatar';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import {Link} from 'react-router-dom';
 import SidebarPage from './SidebarPage';
+import '../degradados.css';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -145,7 +146,7 @@ export default function Register(props) {
   }
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root, "login"} style = {{width:'100%', height:'100hv', backgroundImage: 'linear-gradient(135deg, #08185B, #949CBC)', display:'flex'}}>
         <React.Fragment>
                 <CssBaseline />
                 <main className="layout">                    

@@ -20,8 +20,6 @@ function App() {
   return (
           <Router>
               <div className="App">
-                  <br></br>
-                  <br/>
                   <div>                      
                       <Route exact path="/" component={localStorage.getItem('isLoggedIn') ? SidebarPage: LoginView}/>
                       <Route exact path="/home" component={localStorage.getItem('isLoggedIn') ? SidebarPage : LoginView}/>
