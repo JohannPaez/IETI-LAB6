@@ -102,7 +102,7 @@ export class Login extends React.Component{
     handleSubmit() {     
         const users = JSON.parse(localStorage.getItem("users"));        
         var flag = false;
-        
+        if (users == null) return;
         for (var i = 0; i < users.length; i++) {            
             if (this.state.email === users[i].email && this.state.passwd === users[i].password) {   
                 flag = true;

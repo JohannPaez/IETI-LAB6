@@ -216,13 +216,14 @@ export default class TodoApp extends Component {
                     state = {this.state}
                 />
                 <br/>
-                <div style = {{overflowY: 'scroll', height: '400px', width: '100%'}}>
+                <div style = {{overflowY: 'scroll', height: '350px'}}>
                     <TodoList todoList={this.state.isFilter ? this.state.itemsFilter: this.state.items}/>                            
                 </div>
                 <br></br>
                 <Fab aria-label='Add' color= 'primary' style = {{right: '-40%'}} >
                     <AddIcon onClick = {this.setOpen}/>
-                </Fab>              
+                </Fab>        
+                <br></br><br></br>
                 <div >
                     <Button variant="contained" size="large" color="primary" onClick = {this.setOpenFilter}>
                        Filters
@@ -236,4 +237,3 @@ export default class TodoApp extends Component {
         );
     }
 }
-

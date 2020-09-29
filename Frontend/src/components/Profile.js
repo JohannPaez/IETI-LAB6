@@ -12,11 +12,10 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import Avatar from '@material-ui/core/Avatar';
-import AccountBoxIcon from '@material-ui/icons/AccountBox';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import {Link} from 'react-router-dom';
-import SidebarPage from './SidebarPage';
 import '../degradados.css';
+import SidebarPage from './SidebarPage';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,8 +33,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Register(props) {
-  const classes = useStyles();
+export default function Profile(props) {
+  const classes = useStyles();  
   const [values, setValues] = React.useState({
     amount: '',
     password: '',
@@ -43,7 +42,7 @@ export default function Register(props) {
     weightRange: '',
     showPassword: false,
   });
-
+  
   const [values2, setValues2] = React.useState({
     amount: '',
     password: '',
@@ -66,7 +65,6 @@ export default function Register(props) {
   const [noError, setError] = React.useState({
     flag: true
   });
-    
   
   const verifyNoError = () => {
     var flagError;
@@ -75,12 +73,12 @@ export default function Register(props) {
     } else {
       flagError = false;
     }
-    setError({ ...noError, flag: flagError});   
+    setError({ ...noError, flag: flagError}); 
   };
 
   
  
-  const registerUser = (event) => {
+  const updateUser = (event) => {
     event.preventDefault();
     verifyNoError();
     console.log(formulario);
@@ -88,10 +86,10 @@ export default function Register(props) {
       alert("Passwords do not match or are empty, please try again!");
       return;
     }    
-    var userAdd = {name: formulario.fullName, email: formulario.email, password: formulario.passwd};
+    var userAdd = {name: formulario.fullName, email: localStorage.getItem("email"), password: formulario.passwd};
 
     fetch("https://serene-earth-78588.herokuapp.com/users", 
-          {method: "POST",
+          {method: "PUT",
              body: JSON.stringify(userAdd),
              mode: "cors",
              headers: {
@@ -101,15 +99,15 @@ export default function Register(props) {
             .then(response => response.text())
             .then(data => {                
               localStorage.setItem("username", formulario.fullName);
-              localStorage.setItem("email", formulario.email);                
-              localStorage.setItem('isLoggedIn', true);
-              handleClickShowPassword();              
+              alert("The data was updated successfully!");
+              localStorage.setItem("redi", true);
+              handleClickShowPassword();
             })
             .catch(e => {
                 console.log("Error");
                 console.log(e);
-                alert("An error has occurred!");
-            });    
+                alert("An error occurred while trying to update the data!");
+            });      
   }
   
   const handleChange = (prop) => (event) => {
@@ -136,30 +134,26 @@ export default function Register(props) {
     event.preventDefault();
   };
 
-  if (localStorage.getItem('isLoggedIn'))  {
-    return (
-      <SidebarPage />
-    );
+  if (localStorage.getItem("redi") != null) {
+      return (
+        <SidebarPage />
+      );
   }
 
   return (
+      
     <div className={classes.root, "register"} style = {{width:'100%', height:'100hv', backgroundImage: 'linear-gradient(135deg, #08185B, #949CBC)', display:'flex'}}>
         <React.Fragment>
                 <CssBaseline />
                 <main className="layout">                    
                     <Paper className="paper">                                                
-                        <Typography variant="h2">Sign Up</Typography>
-                        <Avatar className="avatar">
-                            <AccountBoxIcon />
-                        </Avatar>
-                        <form className="form" onSubmit = {registerUser}>                            
+                        <Typography variant="h4">Update Profile</Typography>
+                        <AccountCircleIcon color = "primary" style = {{fontSize: "80px"}}/>                        
+                        <form className="form" onSubmit = {updateUser}>                            
                             <FormControl className={classes.root} noValidate autoComplete="off">
                                 <TextField required onChange={handleChangeForm("fullName")} id="idFullName" label="Full Name" variant="outlined"/>
                             </FormControl>
-                            <br></br>
-                            <FormControl className={classes.root} noValidate autoComplete="off">
-                                <TextField type ="email" required onChange={handleChangeForm("email")} id="idEmail" label="Email" variant="outlined" />
-                            </FormControl>
+                            
                             <br></br>
                             <FormControl className={classes.root} variant="outlined">
                                 <InputLabel error = {noError.flag ? false: true} id = "idPasswd" htmlFor="outlined-adornment-password" >Password</InputLabel>
@@ -214,11 +208,11 @@ export default function Register(props) {
                                 color="primary"
                                 className="submit"                                
                             >
-                                REGISTER
+                                Update
                             </Button>
                             <br></br>
                             <br></br>
-                            <Link to ="/"> Sign In</Link>
+                            <Link to ="/"> Home </Link>
                         </form>
                     </Paper>
                 </main>  

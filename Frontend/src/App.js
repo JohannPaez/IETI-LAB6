@@ -5,6 +5,7 @@ import {BrowserRouter as Router, Route} from 'react-router-dom';
 import SidebarPage from './components/SidebarPage';
 import Register from './components/Register';
 import User from './components/User';
+import Profile from './components/Profile';
 
 function App() {
   const LoginView = () => (
@@ -17,6 +18,11 @@ function App() {
   const UserView = () => (
     <User/>
   );
+
+  const UpdateProfile = () => (
+    <Profile rediFlag = {false}/>
+  );
+
   return (
           <Router>
               <div className="App">
@@ -25,6 +31,7 @@ function App() {
                       <Route exact path="/home" component={localStorage.getItem('isLoggedIn') ? SidebarPage : LoginView}/>
                       <Route exact path="/register" component={localStorage.getItem('isLoggedIn') ? SidebarPage: RegisterView}/>
                       <Route exact path="/User" component= {UserView} />
+                      <Route exact path="/profile" component= {localStorage.getItem('isLoggedIn') ? UpdateProfile: LoginView} />
                   </div>
               </div>
           </Router>

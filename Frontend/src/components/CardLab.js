@@ -10,7 +10,7 @@ export default function CardLab (props) {
     
     const useStyles = makeStyles({
         root: {
-            width: '30%',
+            width: '100%',            
             background: '#606060',
             margin: 'auto',
             borderRadius: '5px'

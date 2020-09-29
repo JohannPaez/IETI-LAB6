@@ -20,7 +20,16 @@ import TodoApp from './TodoApp';
 import CloseIcon from '@material-ui/icons/Close';
 import App from '../App';
 import EmailIcon from '@material-ui/icons/Email';
-
+import SystemUpdateAltIcon from '@material-ui/icons/SystemUpdateAlt';
+import { Link } from 'react-router-dom';
+import DeleteIcon from '@material-ui/icons/Delete';
+import PeopleIcon from '@material-ui/icons/People';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Button from '@material-ui/core/Button';
 
 const drawerWidth = 300;
 
@@ -83,13 +92,54 @@ const useStyles = makeStyles((theme) => ({
     position: 'absolute',
     bottom: theme.spacing(2),
     right: theme.spacing(2),
+  },
+  button: {
+    margin: theme.spacing(1),
   }
 }));
+
+function AlertDialog(props) {
+  const classes = useStyles();
+
+  return (
+    <div>      
+      <Dialog
+        open={props.open}
+        onClose={props.handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{"Delete account"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Do you want to delete your account?
+              This process cannot be canceled.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => props.handleClose()} color="primary" variant="contained">
+            Cancel
+          </Button>
+          
+          <Button onClick={() => props.handleClose(), () => props.deleteAccount()}
+            variant="contained"
+            color="secondary"
+            className={classes.button}
+            startIcon={<DeleteIcon />}
+          >
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </div>
+  );
+}
 
 export default function SidebarPage() {  
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -99,9 +149,44 @@ export default function SidebarPage() {
     setOpen(false);
   };
 
+  const [open2, setOpen2] = React.useState(false);
+  const handleClickOpen2 = () => {
+    setOpen2(true);
+  };
+
+  const handleClose2 = () => {
+    setOpen2(false);
+  };
+
   const logout = () => {
     localStorage.removeItem("isLoggedIn");
-    setOpen(false);    
+    setOpen(false);   
+  }
+
+  const deleteAccount = () => {
+    const userAdd = {name: "", email: localStorage.getItem("email"), password: ""};
+    fetch("https://serene-earth-78588.herokuapp.com/users", 
+          {method: "DELETE",
+             body: JSON.stringify(userAdd),
+             mode: "cors",
+             headers: {
+                "Content-Type": "application/json"
+              }
+            })
+            .then(response => response.text())
+            .then(data => {                
+              localStorage.removeItem("username");
+              localStorage.removeItem("email");
+              localStorage.removeItem("isLoggedIn");
+              setOpen2(false);
+              alert("Deleted successfully!");
+            })
+            .catch(e => {
+                console.log("Error");
+                console.log(e);
+                alert("An error occurred while trying to delete the account.");
+            });
+
   }
 
   if (!localStorage.getItem('isLoggedIn'))  {
@@ -109,9 +194,10 @@ export default function SidebarPage() {
       <App />
     );
   }
-
+  
   return (
-    <div className={classes.root}>
+
+    <div className={classes.root} onLoad = {localStorage.removeItem("redi")}>
       <CssBaseline />
       <AppBar
         position="fixed"
@@ -145,30 +231,63 @@ export default function SidebarPage() {
       >
         <div className={classes.drawerHeader}>
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+            {theme.direction === 'ltr' ? <ChevronLeftIcon color = "primary"/> : <ChevronRightIcon />}
           </IconButton>
         </div>
         <Divider />
 
         <List>      
             <ListItem button key={"username"}>
-              <ListItemIcon>{<AccountBoxIcon />}</ListItemIcon>
+              <ListItemIcon>{<AccountBoxIcon color = "primary"/>}</ListItemIcon>
               <ListItemText primary={localStorage.getItem("username")} />
             </ListItem>
         </List>
 
         <List>      
             <ListItem button key={"email"}>
-              <ListItemIcon>{<EmailIcon />}</ListItemIcon>
+              <ListItemIcon>{<EmailIcon color = "primary"/>}</ListItemIcon>
               <ListItemText primary={localStorage.getItem("email")} />
             </ListItem>
         </List>
-
+        
+        <Divider />
+        
+        <List>      
+          <Link to = "/profile" style = {{textDecoration: 'none', color: 'black'}}>
+            <ListItem button key={"update"}>                        
+                <ListItemIcon>              
+                  {<SystemUpdateAltIcon color = "primary"/>}
+                </ListItemIcon>
+                <ListItemText primary = "Update Profile" />
+                
+            </ListItem>
+            </Link>
+        </List>
+        <List>      
+          <Link to = "/user" style = {{textDecoration: 'none', color: 'black'}}>
+            <ListItem button key={"users"}>                        
+                <ListItemIcon>              
+                  {<PeopleIcon color = "primary"/>}
+                </ListItemIcon>
+                <ListItemText primary = "User List" />
+                
+            </ListItem>
+            </Link>
+        </List> 
+        <Divider />
+        <List>
+          {['Delete Account'].map((text, index) => (
+            <ListItem button key={text} onClick = {handleClickOpen2}>
+              <ListItemIcon>{<DeleteIcon color = "secondary"/>}</ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItem>
+          ))}
+        </List>   
         <Divider />
         <List>
           {['Logout'].map((text, index) => (
             <ListItem button key={text} onClick = {logout}>
-              <ListItemIcon>{<CloseIcon/>}</ListItemIcon>
+              <ListItemIcon>{<CloseIcon color = "primary"/>}</ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
           ))}
@@ -181,9 +300,13 @@ export default function SidebarPage() {
         })}
       >
         <div className={classes.drawerHeader} />
-        <TodoApp/>
         
+        <div style={{width:'100%', height:'100hv', display:'flex', alignItems:'center', justifyContent:'center'}}>
+          <TodoApp/>
+        </div>
 
+        <AlertDialog open ={open2} handleClickOpen = {handleClickOpen2} handleClose = {handleClose2}
+            deleteAccount= {deleteAccount}/>
       </main>
     </div>
   );
